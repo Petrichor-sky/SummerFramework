@@ -13,6 +13,7 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,6 +60,12 @@ public class ResourceResolver {
         }
     }
 
+    /**
+     * ClassLoader首先从Thread.getContextClassLoader()获取，如果获取不到，再从当前Class获取，
+     * 因为Web应用的ClassLoader不是JVM提供的基于Classpath的ClassLoader，而是Servlet容器提供的ClassLoader，
+     * 它不在默认的Classpath搜索，而是在/WEB-INF/classes目录和/WEB-INF/lib的所有jar包搜索，
+     * 从Thread.getContextClassLoader()可以获取到Servlet容器专属的ClassLoader；
+     */
     ClassLoader getContextClassLoader() {
         ClassLoader cl = null;
         cl = Thread.currentThread().getContextClassLoader();
